@@ -46,6 +46,8 @@ dependencies {
     testImplementation 'org.springframework:spring-test:6.0.2'
     testImplementation 'org.springframework:spring-jdbc:6.0.2'
     testImplementation 'org.springframework:spring-web:6.0.2'
+    testImplementation 'org.springframework.amqp:spring-amqp:3.0.0'
+    testImplementation 'org.springframework.amqp:spring-rabbit:3.0.0'
 
     //HikariCP for JDBC connection pooling
     testImplementation "com.zaxxer:HikariCP:5.0.1"
@@ -81,6 +83,12 @@ dependencies {
     testImplementation 'com.fasterxml.jackson.core:jackson-core:2.14.0'
     testImplementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.0'
     testImplementation "com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1"
+
+    //Tool for working with PDF documents
+    testImplementation 'org.apache.pdfbox:pdfbox:2.0.27'
+
+    //RabbitMQ Java Client
+    implementation 'com.rabbitmq:amqp-client:5.16.0'
 }
 
 task upgradeGradle(type: Wrapper) {

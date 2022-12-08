@@ -42,7 +42,6 @@ public class GetOrderRulesTest extends AbstractTestNGSpringContextTests {
         UUID companyId = groupTestData.generateCompanyId();
         UUID groupId = groupTestData.sendGroupWithGivenName(companyId, "Group name");
 
-
         //when //then
         UUID subscriptionId = subscriptionEndpoints.createSubscriptionAndReturnId(companyId, groupId);
 
@@ -54,7 +53,6 @@ public class GetOrderRulesTest extends AbstractTestNGSpringContextTests {
                 .assertThat().body("subscriptionId", is(notNullValue()))
                 .assertThat().body("subscriptionProducts[0].visible", is(true))
                 .assertThat().body("subscriptionProducts[1].visible", is(false));
-
     }
 
     @SneakyThrows
