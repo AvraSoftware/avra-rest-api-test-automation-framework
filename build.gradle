@@ -1,0 +1,228 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id("io.qameta.allure") version "2.10.0"
+    id 'idea'
+    id 'jacoco'
+    id 'checkstyle'
+}
+
+group 'customer-account-tests'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://repo.maven.apache.org/maven2'
+    }
+}
+
+dependencies {
+    //testNG for tests management and running
+    testImplementation "org.testng:testng:7.5"
+
+    //junit 5
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.8.2"
+    testImplementation "org.junit.vintage:junit-vintage-engine:5.8.2"
+
+    //Allure for report generation/visualisation
+    testImplementation "io.qameta.allure:allure-testng:2.18.1"
+    testImplementation "org.aspectj:aspectjrt:1.9.9.1"
+    testImplementation "org.aspectj:aspectjweaver:1.9.9.1"
+
+    //REST Assured for requests and responses
+    testImplementation "io.rest-assured:rest-assured:5.1.1"
+    testImplementation "io.qameta.allure:allure-rest-assured:2.18.1"
+
+    //Spring framework for dependency injection and configuration
+    testImplementation "org.springframework:spring-context:5.3.18"
+    testImplementation "org.springframework:spring-test:5.3.18"
+    testImplementation "org.springframework:spring-jdbc:5.3.18"
+    testImplementation "org.springframework:spring-web:5.3.18"
+
+    //HikariCP for JDBC connection pooling
+    testImplementation "com.zaxxer:HikariCP:5.0.1"
+    testImplementation "org.postgresql:postgresql:42.3.3"
+
+    //Awaitility for asynchronous cases testing
+    testImplementation "org.awaitility:awaitility:4.2.0"
+
+    //Assertj for custom assertions
+    testImplementation "org.assertj:assertj-core:3.22.0"
+
+    //Lombok for context creation
+    testImplementation "org.projectlombok:lombok:1.18.22"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.22"
+
+    //logging
+    testImplementation "org.slf4j:slf4j-simple:1.7.36"
+    testImplementation "org.apache.logging.log4j:log4j-core:2.18.0"
+
+    //JSON and Gson for writing/reading JSON format
+    testImplementation "org.json:json:20220320"
+    testImplementation "com.google.code.gson:gson:2.9.0"
+
+    //apache poi for working with excel files
+    testImplementation "org.apache.poi:poi-ooxml:5.2.2"
+
+    testImplementation "org.apache.commons:commons-lang3:3.12.0"
+    testImplementation "io.vavr:vavr:0.10.4"
+
+    //Generate UUID
+    testImplementation "com.github.javafaker:javafaker:1.0.2"
+    testImplementation "com.fasterxml.uuid:java-uuid-generator:4.0.1"
+    testImplementation "com.fasterxml.jackson.core:jackson-core:2.13.2"
+    testImplementation "com.fasterxml.jackson.core:jackson-annotations:2.13.2"
+    testImplementation "com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1"
+}
+
+task upgradeGradle(type: Wrapper) {
+    gradleVersion = '7.4'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
+}
+
+allure {
+    adapter {
+        allureJavaVersion.set("2.18.1")
+        aspectjVersion.set("1.9.5")
+        adapter.autoconfigure.set(true)
+        autoconfigureListeners.set(true)
+        aspectjWeaver.set(true)
+    }
+
+    report {
+        reportDir = project.reporting.baseDirectory.dir("../../allure-report")
+    }
+}
+
+task deleteTestResults(type: Delete) {
+    fileTree('allure-results').exclude('**/history/**').exclude('**/history/*.gitkeep').visit { delete it.file }
+    fileTree('allure-report').exclude('*.gitkeep').visit { delete it.file }
+    delete '.allure'
+}
+
+task resourcesCopy(type: Copy) {
+    copy {
+        from 'allure-report/history'
+        into 'allure-results/history'
+        include('*.json')
+    }
+}
+
+task testNGThreads(type: Test) {
+    doFirst {
+        clean
+        deleteTestResults.dependsOn(resourcesCopy)
+    }
+
+    systemProperty "file.encoding", "utf-8"
+    systemProperty "org.aspectj.weaver.Dump.exception", "false"
+    systemProperty "spring.profiles.active", findProperty("profile")
+    scanForTestClasses = false
+    failFast = false
+    ignoreFailures = false
+    reports.html.enabled = true
+    testLogging {
+        events "skipped", "failed"
+        exceptionFormat 'FULL'
+        showExceptions true
+        showCauses true
+        showStackTraces true
+        showStandardStreams true
+        afterTest { desc, result ->
+            logger.quiet "TEST ${desc.name} [${desc.className}] with result: ${result.resultType}"
+        }
+
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "\nRESULTS: ${result.resultType} (${result.testCount} TESTS, ${result.successfulTestCount} COMPLETED, ${result.failedTestCount} FAILED, ${result.skippedTestCount} SKIPPED)\n"
+            }
+        }
+    }
+
+    useTestNG() {
+        suiteName = 'Sample Suite for rest tests'
+        testName = 'Sample Tests for rest tests'
+        parallel = 'methods'
+        threadCount = 4
+        useDefaultListeners = true
+        excludeGroups 'excluededTestGroup'
+    }
+    systemProperty("allure.model.indentOutput", "true")
+    resourcesCopy.dependsOn(finalizedBy('allureReport'))
+}
+
+task testNGThreadsGroups(type: Test) {
+    doFirst {
+        clean
+        deleteTestResults.dependsOn(resourcesCopy)
+    }
+
+    systemProperty "file.encoding", "utf-8"
+    systemProperty "org.aspectj.weaver.Dump.exception", "false"
+    systemProperty "spring.profiles.active", findProperty("profile")
+    scanForTestClasses = false
+    failFast = false
+    ignoreFailures = false
+    reports.html.enabled = true
+    testLogging {
+        events "skipped", "failed"
+        exceptionFormat 'FULL'
+        showExceptions true
+        showCauses true
+        showStackTraces true
+        showStandardStreams true
+        afterTest { desc, result ->
+            logger.quiet "TEST ${desc.name} [${desc.className}] with result: ${result.resultType}"
+        }
+
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "\nRESULTS: ${result.resultType} (${result.testCount} TESTS, ${result.successfulTestCount} COMPLETED, ${result.failedTestCount} FAILED, ${result.skippedTestCount} SKIPPED)\n"
+            }
+        }
+    }
+
+    def groups = System.getProperty('groups', '')
+    useTestNG() {
+        suiteName = 'Sample Suite for rest tests'
+        testName = 'Sample Tests for rest tests'
+        parallel = 'methods'
+        threadCount = 3
+        useDefaultListeners = true
+        includeGroups groups
+    }
+    systemProperty("allure.model.indentOutput", "true")
+    resourcesCopy.dependsOn(finalizedBy('allureReport'))
+}
+
+task testNG(type: Test) {
+    doFirst {
+        clean
+        deleteTestResults.dependsOn(resourcesCopy)
+    }
+
+    systemProperty "file.encoding", "utf-8"
+    systemProperty "org.aspectj.weaver.Dump.exception", "false"
+    systemProperty "spring.profiles.active", findProperty("profile")
+
+    testLogging {
+        events "skipped", "failed"
+        exceptionFormat 'FULL'
+        showExceptions true
+        showCauses true
+    }
+    useTestNG() {
+        useDefaultListeners = true
+        suites 'src/test/resources/testng.xml'
+    }
+    systemProperty("allure.model.indentOutput", "true")
+    resourcesCopy.dependsOn(finalizedBy('allureReport'))
+}

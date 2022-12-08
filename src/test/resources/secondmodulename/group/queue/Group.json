@@ -1,0 +1,6 @@
+{
+  "id": "!{generatedId}",
+  "companyId": "!{generatedCompanyId}",
+  "active": true,
+  "name": "Nazwa grupy"
+}

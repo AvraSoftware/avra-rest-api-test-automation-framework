@@ -1,0 +1,7 @@
+{
+  "id": "!{generatedId}",
+  "companyId": "!{generatedCompanyId}",
+  "active": true,
+  "name": "Nazwa pierwszej grupy zmodyfikowana",
+  "nameAdditional": "Nazwa drugiej grupy dodana"
+}

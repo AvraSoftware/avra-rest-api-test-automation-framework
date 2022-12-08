@@ -1,0 +1,18 @@
+  version: '3'
+  services:
+    rabbit:
+      image: <nexus-address>/<rabbit-image-path>
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+    postgres:
+      image: <nexus-address>/<database-image-path>
+      ports:
+        - "5491:5432"
+    <backend-service-name>:
+      image: <nexus-address>/<backend-image-path>
+      ports:
+        - "9060-9061:9060"
+      environment:
+        - SPRING_PROFILES_ACTIVE=local
+        - DEBUG=1
