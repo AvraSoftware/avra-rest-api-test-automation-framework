@@ -1,4 +1,4 @@
-##avra-qa-rest-template
+##avra-rest-api-test-automation-framework
 Template project with REST API and queue tests for backend services
 
 ### Project uses:
@@ -54,7 +54,7 @@ Also necessary .env data for services should be placed in .env files in the 'git
 #####GitLab schedules
 Your tests might be run with GitLab scheduled jobs:
 ```
-https://git.avra.pl/avra/avra-qa-rest-template/pipeline_schedules
+https://git.avra.pl/avra-rest-api-test-automation-framework/pipeline_schedules
 ```
 To run tests add "New schedule" with
 ```
