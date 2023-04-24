@@ -1,5 +1,20 @@
-##avra-rest-api-test-automation-framework
-Template project with REST API and queue tests for backend services
+## avra-rest-api-test-automation-framework
+
+If you are developing or testing a microservices-based system, you probably know that an important component of the whole microservices concept is communication between them, which determines the final reliability and performance of the application. For this purpose, the REST API interface is most commonly used.
+
+Testing a REST API is an important stage in the application development process because it allows checking if the API works according to requirements and meets user expectations. It is crucial to ensure the quality and proper functioning of the application.
+
+Creating automatic tests for REST APIs has many benefits. Here are some of them:
+
+* Automation of the testing process: Automated testing of REST APIs allows for speeding up the testing process and increasing its efficiency by automating repetitive tests, which allows focusing on more complex test cases.
+* Faster error identification: Automated testing allows for quickly detecting errors, which allows for a faster response and problem resolution.
+* Increased code quality: Automated tests force programmers to write more solid and reliable code. They also improve the quality of code documentation because programmers have to describe what the tests do, which helps in understanding the code by other programmers.
+* Easier deployment: Automated tests allow for easier deployment of code changes because they provide certainty that new functionalities will not cause errors in already existing parts of the system.
+* Time and money savings: Automating REST API tests allows for saving time and money by reducing the amount of time needed for manual testing. Additionally, automated testing reduces the risk of human errors, which can lead to costly problems.
+
+To help with this, there is a backend testing framework from Avra, available to everyone and used commercially multiple times. It contains up-to-date, dedicated tools and usage examples.
+
+
 
 ### Project uses:
 * TestNG as a framework to manage tests https://testng.org/doc/
@@ -51,7 +66,7 @@ Necessary services to run your tests with GitLab CI/CD should be pointed in 'run
 Also necessary .env data for services should be placed in .env files in the 'gitlab-ci' folder.
 
 ### Running tests
-#####GitLab schedules
+##### GitLab schedules
 Your tests might be run with GitLab scheduled jobs:
 ```
 https://git.avra.pl/avra-rest-api-test-automation-framework/pipeline_schedules
@@ -76,7 +91,7 @@ Variables:
 ```
 and run it manually or wait for scheduled job.
 
-#####Run local
+##### Run local
 Locally your tests might be run from IntelliJ- with context menu or with gradle command:
 ```
 gradle testNG -Pprofile=local
