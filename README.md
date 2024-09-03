@@ -1,56 +1,52 @@
 ## avra-rest-api-test-automation-framework
 
-If you are developing or testing a microservices-based system, you probably know that an important component of the whole microservices concept is communication between them, which determines the final reliability and performance of the application. For this purpose, the REST API interface is most commonly used.
+When developing or testing a microservices-based system, communication between microservices is crucial for the overall reliability and performance of the application. The REST API interface is commonly used for this purpose.
 
-Testing a REST API is an important stage in the application development process because it allows checking if the API works according to requirements and meets user expectations. It is crucial to ensure the quality and proper functioning of the application.
+Testing a REST API is an essential stage in the application development process as it ensures that the API operates according to requirements and meets user expectations. Ensuring the quality and proper functioning of the application is vital.
 
-Creating automatic tests for REST APIs has many benefits. Here are some of them:
+Automating REST API tests offers several benefits, including:
 
-* Automation of the testing process: Automated testing of REST APIs allows for speeding up the testing process and increasing its efficiency by automating repetitive tests, which allows focusing on more complex test cases.
-* Faster error identification: Automated testing allows for quickly detecting errors, which allows for a faster response and problem resolution.
-* Increased code quality: Automated tests force programmers to write more solid and reliable code. They also improve the quality of code documentation because programmers have to describe what the tests do, which helps in understanding the code by other programmers.
-* Easier deployment: Automated tests allow for easier deployment of code changes because they provide certainty that new functionalities will not cause errors in already existing parts of the system.
-* Time and money savings: Automating REST API tests allows for saving time and money by reducing the amount of time needed for manual testing. Additionally, automated testing reduces the risk of human errors, which can lead to costly problems.
+* **Automation of the testing process**: Automated testing speeds up the testing process and increases efficiency by automating repetitive tests, allowing you to focus on more complex test cases.
+* **Faster error identification**: Automated testing enables quicker detection of errors, leading to faster responses and problem resolution.
+* **Increased code quality**: Automated tests encourage programmers to write more robust and reliable code. They also improve code documentation as programmers need to describe what the tests do, which helps other developers understand the code.
+* **Easier deployment**: Automated tests facilitate easier deployment of code changes by providing assurance that new functionalities will not introduce errors in existing parts of the system.
+* **Time and cost savings**: Automating REST API tests saves time and money by reducing the need for manual testing. It also decreases the risk of human errors, which can lead to costly issues.
 
-To help with this, there is a backend testing framework from Avra, available to everyone and used commercially multiple times. It contains up-to-date, dedicated tools and usage examples.
+To assist with this, Avra provides a backend testing framework that is available to everyone and has been used commercially multiple times. It includes up-to-date, dedicated tools and usage examples.
 
+### Project Uses:
+* [TestNG](https://testng.org/doc/) - Framework for managing tests.
+* [REST Assured](http://rest-assured.io/) - Library for testing and validating requests and responses.
+* [Spring Framework](https://spring.io/projects/spring-framework) - Dependency injection technique.
+* [Gradle](https://gradle.org/) - Dependency and test runner manager.
+* [Spring AMQP](https://spring.io/projects/spring-amqp#overview) - Includes `spring-amqp` and `spring-rabbit` modules for sending events to provide data for tests.
+* [Project Lombok](https://projectlombok.org/) - Java library used in model classes to simplify code.
+* [Gson](https://github.com/google/gson) - Java library for converting Java Objects to JSON representation and vice versa.
+* [Allure Framework](https://docs.qameta.io/allure/) - Framework for generating test reports.
+* [Apache PDFBox](https://pdfbox.apache.org/) - Library for working with PDF documents.
+* [Apache POI](https://poi.apache.org/) - Library for working with Microsoft documents.
+* `NamedParameterJdbcTemplate` - Used in DB queries to avoid potential SQL injection (best practice).
 
+### Prerequisites:
+* Java 17
+* Optional: Gradle
 
-### Project uses:
-* TestNG as a framework to manage tests https://testng.org/doc/
-* REST Assured library to testing and validating requests and responses http://rest-assured.io/
-* Spring library as dependency injection technique https://spring.io/projects/spring-framework
-* Gradle as a dependency and additionally test runner manager https://gradle.org/
-* Spring AMQP with two modules: spring-amqp and spring-rabbit to send events to provide data for tests and for testing purpose https://spring.io/projects/spring-amqp#overview
-* Project Lombok - java library used in model classes to simplify code https://projectlombok.org/
-* Gson - Java library that can be used to convert Java Objects into their JSON representation or convert a JSON string to an equivalent Java object https://github.com/google/gson
-* Allure Framework for reports https://docs.qameta.io/allure/
-* Apache PDFBox library for working with .pdf documents https://pdfbox.apache.org/
-* Apache POI for working with Microsoft Documents
-* NamedParameterJdbcTemplate in DB queries to avoid potentially SQL injection (as good practice here)
-
-### Prerequisites
-* Java8+
-* optional: gradle
-
-### Initial
-* clone repository
-* open build.gradle file in IDE (IntelliJ)
-* import dependencies with gradle
-* add to IDE (IntelliJ) Lombok plugin: (Settings -> Plugins -> 'Browse repositories..." -> find and install Lombok -> restart IDE)
-* select IDE "Enable annotation processing": (Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors)
+### Setup
+1. Clone the repository.
+2. Open the `build.gradle` file in your IDE (e.g., IntelliJ).
+3. Import dependencies using Gradle.
+4. Install the Lombok plugin in IntelliJ: Go to `Settings -> Plugins -> Browse repositories...`, find and install Lombok, and restart the IDE.
+5. Enable annotation processing in IntelliJ: Go to `Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors` and enable it.
 
 ### Installing the CheckStyle-IDEA Plugin
-* open [IntelliJ IDEA → Configure → Settings] (or [File → Settings…] if you are in a project)
-* go to [Plugins tab → Marketplace → search CheckStyle-IDEA]
-* install the one that matches the name completely and restart
-* go to [File → Settings → Tools → Checkstyle → Configuration file] and add "config/checkstyle/checkstyle.xml" and set as active
+1. Open IntelliJ IDEA and go to `File → Settings` (or `Configure → Settings` if not in a project).
+2. Go to the `Plugins` tab, search for `CheckStyle-IDEA`, and install it.
+3. Restart IntelliJ IDEA.
+4. Go to `File → Settings → Tools → Checkstyle → Configuration file`, add `config/checkstyle/checkstyle.xml`, and set it as active.
 
+### Environment for Running Tests Locally
+Necessary services for running tests locally should be defined in the `docker-compose.yml` file located in the root of the project. For scalability testing, the `docker-compose.yml` should be configured to run backend services as two instances on different ports. Use the following command to create two instances of the application:
 
-### Environment to run tests locally
-Necessary services to run your tests locally should be pointed in 'docker-compose.yml' file in the root of project. As part of 
-scalability testing docker-compose.yml should be prepared to run backend services as two instances with different ports.
-In 'docker-compose up' command creating two instances of application is pointed as '--scale backend-service-name=2'.
 
 Prepare local environment for test: in IDE's terminal run command:
 ```
@@ -71,28 +67,25 @@ Your tests might be run with GitLab scheduled jobs:
 ```
 https://git.avra.pl/avra-rest-api-test-automation-framework/pipeline_schedules
 ```
-To run tests add "New schedule" with
-```
-Description: name of schedule
+To create a new schedule:
+1. Click "New schedule".
+2. Fill in the details:
+    * **Description**: Name of the schedule.
+    * **Interval Pattern**: For example, select "Every day (at 4:00 am)".
+    * **Cron Timezone**: Warsaw.
+    * **Target Branch**: The branch with tests (e.g., `develop` or a feature branch).
+    * **Variables**:
+        * `BACKEND_TAG_NAME`: Tag name of the backend application (default: `0.0.2`).
+        * `POSTGRES_IMAGE_NAME`: Tag/version name of the database application (default: `0.0.2`).
+        * `RABBITMQ_IMAGE_NAME`: Tag/version name of the RabbitMQ application (default: `0.0.2`).
+        * `WIREMOCK_TAG_NAME`: Tag/version name of the WireMock application (default: `0.0.2`).
+        * `RUN_TEST_COMMAND`: Command to run tests (default: `testNGThreads`).
+        * `TEST_GROUP`: Test group name (default: no name).
 
-Interval Pattern: for example select "Every day (at 4:00am)
-
-Cron Timezone: Warsaw
-
-Target Branch: branch name with tests (develop or created feature branch)
-
-Variables:
-- BACKEND_TAG_NAME 0.0.2 (tag name of backend application, latest is as default)
-- POSTGRES_IMAGE_NAME 0.0.2 (tag/version name of database application)
-- RABBITMQ_IMAGE_NAME 0.0.2 (tag/version name of rabbitmq application)
-- WIREMOCK_TAG_NAME 0.0.2 (tag/version name of wiremock application)
-- RUN_TEST_COMMAND runTestCommandName (run tests command name, default is: testNGThreads)
-- TEST_GROUP testGroupName (test group name, no name is as default)
-```
-and run it manually or wait for scheduled job.
+You can run it manually or wait for the scheduled job.
 
 ##### Run local
-Locally your tests might be run from IntelliJ- with context menu or with gradle command:
+Locally your tests might be run from IntelliJ - with context menu or with gradle command:
 ```
 gradle testNG -Pprofile=local
 or
@@ -114,7 +107,7 @@ As default, number of threads is set to '4'. useTestNG() configuration in this g
 ```
 excludeGroups 'rabbit'
 ```
-It means, that one group is not running al all (it is fake group name- you can configure it for your test project)
+It means, that one group is not running al all (it is fake group name - you can configure it for your test project)
 
 Tests also might be run according to their group name:
 ```
